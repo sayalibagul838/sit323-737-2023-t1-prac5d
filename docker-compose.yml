@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  first-service:
+   build: 
+      context: . 
+      dockerfile: Dockerfile
+   ports:
+      - "3000:3000"
+   command: node server.js
+   restart: always
+   healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:3000|| exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  
+  second-service:
+   build: 
+      context: . 
+      dockerfile: Dockerfile
+   ports:
+      - "3040:3040"
+   command: node app.js
+   restart: always
+   healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:3040|| exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
